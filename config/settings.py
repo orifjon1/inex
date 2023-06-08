@@ -23,6 +23,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['http://165.227.163.161/']
 
 
 # Application definition
@@ -120,7 +121,7 @@ MIDDLEWARE = [
 CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8000",
+    "http://localhost:8030",
     "http://localhost:3000",
 ]
 
