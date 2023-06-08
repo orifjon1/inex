@@ -6,23 +6,17 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 # from rest_framework_simplejwt.tokens import AccessToken, TokenError
 
-User = get_user_model()
-
-
-@database_sync_to_async
-def get_user(user_id):
-    try:
-        return User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        return None
+# User = get_user_model()
 
 
 class WebSocketJWTAuthMiddleware:
-
     def __init__(self, inner):
         self.inner = inner
 
     async def __call__(self, scope, receive, send):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+
         try:
             token = JWTAuthentication().get_validated_token(scope["query_string"].decode("utf-8"))
         except InvalidToken as e:
@@ -33,7 +27,7 @@ class WebSocketJWTAuthMiddleware:
             return None
 
         user_id = token["user_id"]
-        user = await get_user(user_id)
+        user = await self.get_user(user_id)
 
         if user is None:
             print("User not found")
@@ -42,6 +36,13 @@ class WebSocketJWTAuthMiddleware:
         scope['user'] = user
 
         return await self.inner(scope, receive, send)
+
+    @database_sync_to_async
+    def get_user(self, user_id):
+        try:
+            return get_user_model().objects.get(id=user_id)
+        except get_user_model().DoesNotExist:
+            return None
 
 # @database_sync_to_async
 # def get_user(user_id):
