@@ -4,7 +4,7 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-from config.middlewares import WebSocketJWTAuthMiddleware
+from config import middlewares
 from channels.security.websocket import AllowedHostsOriginValidator
 from channels.auth import AuthMiddleware
 from channels.routing import ProtocolTypeRouter, URLRouter
@@ -20,7 +20,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 application = ProtocolTypeRouter(
     {
         "http": get_asgi_application(),
-        "websocket": WebSocketJWTAuthMiddleware(
+        "websocket": middlewares.WebSocketJWTAuthMiddleware(
 
             URLRouter(
                 websocket_urlpatterns))
