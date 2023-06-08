@@ -13,7 +13,7 @@ app.config_from_object(
 app.conf.beat_schedule = {
     'update_task_missed': {
         'task': 'task.tasks.update_task_missed',
-        'schedule': crontab(minute='*/2')
+        'schedule': crontab(hour=0, minute=0)
     },
 }
 
