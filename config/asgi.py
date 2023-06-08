@@ -4,7 +4,7 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-from config import middlewares
+from task import middlewares
 from channels.security.websocket import AllowedHostsOriginValidator
 from channels.auth import AuthMiddleware
 from channels.routing import ProtocolTypeRouter, URLRouter
