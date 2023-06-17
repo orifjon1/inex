@@ -1,6 +1,6 @@
 from django.db.models import Q
 from datetime import datetime
-from config.celery_help import app
+from config.celery import app
 from task.models import Task
 
 
